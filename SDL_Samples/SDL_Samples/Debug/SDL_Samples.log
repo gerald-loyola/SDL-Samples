@@ -1,0 +1,13 @@
+﻿Build started 9/8/2014 9:30:01 PM.
+     1>Project "D:\Gerald\OpenGL\SDL_Samples\SDL_Samples\SDL_Samples\SDL_Samples.vcxproj" on node 2 (ClCompile target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Gerald\OpenGL\SDL_Samples\SDL_Samples\SDL_Samples\SDL2-2.0.3\include" /I"D:\Gerald\OpenGL\SDL_Samples\SDL_Samples\SDL_Samples\glew-1.11.0\include" /I"D:\Gerald\OpenGL\SDL_Samples\SDL_Samples\soil\Simple OpenGL Image Library\src" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Matrix4X4.cpp
+         Matrix4X4.cpp
+     1>d:\gerald\opengl\sdl_samples\sdl_samples\sdl_samples\matrix4x4.h(16): error C2536: 'Matrix4X4::Matrix4X4::m_Matrix' : cannot specify explicit initializer for arrays
+                 d:\gerald\opengl\sdl_samples\sdl_samples\sdl_samples\matrix4x4.h(11) : see declaration of 'Matrix4X4::m_Matrix'
+                 d:\gerald\opengl\sdl_samples\sdl_samples\sdl_samples\matrix4x4.h(11) : see declaration of 'Matrix4X4::m_Matrix'
+     1>Done Building Project "D:\Gerald\OpenGL\SDL_Samples\SDL_Samples\SDL_Samples\SDL_Samples.vcxproj" (ClCompile target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.55
