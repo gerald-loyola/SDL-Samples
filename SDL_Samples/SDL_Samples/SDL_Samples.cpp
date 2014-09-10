@@ -7,6 +7,9 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SOIL.h>
+#include "Matrix4X4.h"
+#include "Matrix4X1.h"
+#include "Vector3D.h"
 
 #define GLSL(src) "#version 330 core\n" # src
 
@@ -15,13 +18,17 @@ const GLchar* vertexShaderSource = GLSL(
 								layout (location = 0) in vec2 position;
 								layout (location = 1) in vec3 color;
 								layout (location = 2) in vec2 texCoord;
+
 								out vec3 _Color;
 								out vec2 _TextureCoord;
+
+								uniform mat4 transform;
+
 								void main() 
 								{
 									_Color = color;
 									_TextureCoord = texCoord;
-								   gl_Position = vec4(position.x, position.y, 0.0, 1.0);
+									gl_Position =  transform * vec4(position, 0.0, 1.0);
 								}
 								);
 
@@ -129,7 +136,7 @@ int main(int argc, char* argv[])
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-
+	float rotate = 0.0f;
 	SDL_Event windowEvent;
 	while (true)
 	{
@@ -148,6 +155,19 @@ int main(int argc, char* argv[])
 
 		//BindTexture
 		glBindTexture(GL_TEXTURE_2D, texture);
+
+		//Create Trasnformation
+		Matrix4X4 transformMatrix;
+		float scale = 0.5f;
+		transformMatrix = transformMatrix * scale;
+		Matrix4X1 matrix = transformMatrix.Translate(Vector3D(-0.50f, 0.50f, 0.0f));
+		matrix.Rotate(180.0f, Vector3D::right);
+
+		transformMatrix = matrix;
+		transformMatrix.Transpose();
+		
+		GLint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, *transformMatrix.m_Matrix);
 
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);

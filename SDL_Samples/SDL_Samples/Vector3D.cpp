@@ -1,6 +1,11 @@
 #include "Vector3D.h"
 #include <math.h>
 
+Vector3D Vector3D::right = Vector3D(1.0f, 0.0f, 0.0f);
+Vector3D Vector3D::up = Vector3D(0.0f, 1.0f, 0.0f);
+Vector3D Vector3D::forward = Vector3D(0.0f, 0.0f, 1.0f);
+
+
 Vector3D::Vector3D()
 {
 	x = y = z = 0.0f;
@@ -20,13 +25,12 @@ Vector3D::Vector3D(float X, float Y, float Z)
 	z = Z;
 }
 
-float* Vector3D::GetArray()
+float* Vector3D::GetDataInArray(float *arr)
 {
-	float values[3];
-	values[0] = x;
-	values[1] = y;
-	values[2] = z;
-	return values;
+	arr[0] = x;
+	arr[1] = y;
+	arr[2] = z;
+	return arr;
 }
 
 Vector3D Vector3D::operator+(const Vector3D& inVector)
