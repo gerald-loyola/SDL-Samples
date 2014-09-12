@@ -1,17 +1,33 @@
-﻿Build started 9/10/2014 1:56:11 PM.
+﻿Build started 9/11/2014 9:34:02 PM.
      1>Project "D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\SDL_Samples.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\SDL2-2.0.3\include" /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\glew-1.11.0\include" /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\soil\Simple OpenGL Image Library\src" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt SDL_Samples.cpp
-         SDL_Samples.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\SDL2-2.0.3\include" /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\glew-1.11.0\include" /I"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\soil\Simple OpenGL Image Library\src" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ShaderLoader.cpp
+         ShaderLoader.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\SDL_Samples.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\SDL2-2.0.3\lib\x86" /LIBPATH:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\glew-1.11.0\lib\Release\Win32" /LIBPATH:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\\" SDL2.lib SDL2main.lib glew32s.lib opengl32.lib SOIL.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\SDL_Samples.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\SDL_Samples.lib" /MACHINE:X86 Debug\Matrix4X1.obj
          Debug\Matrix4X4.obj
          Debug\SDL_Samples.obj
+         Debug\ShaderLoader.obj
          Debug\stdafx.obj
          Debug\Vector3D.obj
+     1>LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewAttachShader imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewCompileShader imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewCreateProgram imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewCreateShader imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewDeleteShader imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewGetProgramInfoLog imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewGetProgramiv imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewGetShaderInfoLog imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewGetShaderiv imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewLinkProgram imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewShaderSource imported
+     1>ShaderLoader.obj : warning LNK4049: locally defined symbol ___glewUseProgram imported
+     1>glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\vc120.pdb'; linking object as if no debug info
          SDL_Samples.vcxproj -> D:\Gerald\GitHub\SDL-Samples\SDL_Samples\Debug\SDL_Samples.exe
      1>Done Building Project "D:\Gerald\GitHub\SDL-Samples\SDL_Samples\SDL_Samples\SDL_Samples.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.44
+Time Elapsed 00:00:01.66

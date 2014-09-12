@@ -1,10 +1,5 @@
 #include "Matrix4X1.h"
-#include "Vector3D.h"
 
-#include <math.h>
-#include "Utilities.h";
-
-using namespace Utilities;
 
 Matrix4X1::Matrix4X1()
 {
@@ -39,7 +34,7 @@ Matrix4X1 Matrix4X1::operator*(const float& value)
 
 Matrix4X1 Matrix4X1::Rotate(const float& angleInDegrees, const Vector3D& inAxis)
 {
-	float angleInRadians = DegreeToRadians(angleInDegrees);
+	/*float angleInRadians = DegreeToRadians(angleInDegrees);
 	float x = this->m_Matrix[0];
 	float y = this->m_Matrix[1];
 	float z = this->m_Matrix[2];
@@ -60,7 +55,7 @@ Matrix4X1 Matrix4X1::Rotate(const float& angleInDegrees, const Vector3D& inAxis)
 		this->m_Matrix[0] = (cos(angleInRadians) * x) - (sin(angleInRadians) * y);
 		this->m_Matrix[1] = (sin(angleInRadians) * x) + (cos(angleInRadians) * y);
 		this->m_Matrix[2] = z;
-	}
+	}*/
 
 	return *this;
 }

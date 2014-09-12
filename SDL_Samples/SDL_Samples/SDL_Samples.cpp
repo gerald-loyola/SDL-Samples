@@ -10,39 +10,9 @@
 #include "Matrix4X4.h"
 #include "Matrix4X1.h"
 #include "Vector3D.h"
+#include "Math.h"
+#include "ShaderLoader.h"
 
-#define GLSL(src) "#version 330 core\n" # src
-
-// Shader sources
-const GLchar* vertexShaderSource = GLSL(
-								layout (location = 0) in vec2 position;
-								layout (location = 1) in vec3 color;
-								layout (location = 2) in vec2 texCoord;
-
-								out vec3 _Color;
-								out vec2 _TextureCoord;
-
-								uniform mat4 transform;
-
-								void main() 
-								{
-									_Color = color;
-									_TextureCoord = texCoord;
-									gl_Position =  transform * vec4(position, 0.0, 1.0);
-								}
-								);
-
-const GLchar* fragmentShaderSource =  GLSL(
-								in vec3 _Color;
-								in vec2 _TextureCoord;
-								out vec4 outColor;
-
-								uniform sampler2D _Texture;
-								void main() 
-								{
-									outColor = texture(_Texture, _TextureCoord) * vec4(_Color, 1.0f);
-								}
-								);
 
 int main(int argc, char* argv[])
 {
@@ -59,25 +29,8 @@ int main(int argc, char* argv[])
 	glewExperimental = GL_TRUE;
 	glewInit();
 
-	//Create and compile Vertex shader
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+	ShaderLoader shader("VertexShader\\DefaultVertex.vs", "FragmentShader\\DefaultFragment.frag");
 
-	//Create and compile fragment shader
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	//Link the shaders
-	GLuint shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glBindFragDataLocation(shaderProgram, 0, "outColor");
-	glLinkProgram(shaderProgram);
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-	
 
 	// Create Vertex Array Object
 	GLuint vao;
@@ -136,7 +89,12 @@ int main(int argc, char* argv[])
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	float rotate = 0.0f;
+	float prevFrameTime = SDL_GetTicks();
+	float deltaTime = 0.0f;
+
+	const int MAX_FPS = 60;
+	const float MAX_FPS_DT = MAX_FPS / 1000.0f;
+	float gameTime = 0.0f;
 	SDL_Event windowEvent;
 	while (true)
 	{
@@ -151,22 +109,23 @@ int main(int argc, char* argv[])
 
 
 		//Draw triangle
-		glUseProgram(shaderProgram);
+		shader.Apply();
 
 		//BindTexture
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		//Create Trasnformation
+		float scale = 0.25f;
 		Matrix4X4 transformMatrix;
-		float scale = 0.5f;
-		transformMatrix = transformMatrix * scale;
-		Matrix4X1 matrix = transformMatrix.Translate(Vector3D(-0.50f, 0.50f, 0.0f));
-		matrix.Rotate(180.0f, Vector3D::right);
+		Vector3D pos(-0.50f, 0.50f, 0.0f);
 
-		transformMatrix = matrix;
+		transformMatrix.Translate(pos);
+		transformMatrix.Rotate(deltaTime * 0.05f, Vector3D::forward);
+		transformMatrix = transformMatrix * scale;
+
 		transformMatrix.Transpose();
 		
-		GLint transformLoc = glGetUniformLocation(shaderProgram, "transform");
+		GLint transformLoc = glGetUniformLocation(shader.m_programID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, *transformMatrix.m_Matrix);
 
 		glBindVertexArray(vao);
@@ -174,6 +133,9 @@ int main(int argc, char* argv[])
 		glBindVertexArray(0);
 
 		SDL_GL_SwapWindow(window);
+
+		deltaTime = SDL_GetTicks() - prevFrameTime;
+		gameTime += deltaTime;
 	}
 
 	SDL_GL_DeleteContext(context);

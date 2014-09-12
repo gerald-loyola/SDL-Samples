@@ -1,3 +1,8 @@
+#pragma once
+
+#ifndef __UTILITY__
+#define __UTILITY__
+
 namespace Utilities
 {
 	const float  PI = 3.14159265358979f;
@@ -12,3 +17,5 @@ namespace Utilities
 		return radians * (180.0f / PI);
 	}
 }
+
+#endif
