@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef __VECTOR_3D__
+#define __VECTOR_3D__
+
 class Vector3D
 {
 public:
@@ -38,3 +41,5 @@ public:
 	static Vector3D up;
 	static Vector3D forward;
 };
+
+#endif

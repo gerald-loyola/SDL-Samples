@@ -12,6 +12,8 @@
 #include "Vector3D.h"
 #include "Math.h"
 #include "ShaderLoader.h"
+#include "Screen.h"
+#include "Camera.h"
 
 
 int main(int argc, char* argv[])
@@ -21,7 +23,8 @@ int main(int argc, char* argv[])
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-	SDL_Window* window = SDL_CreateWindow("Sample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_OPENGL);
+	Screen mainScreen(800, 600);
+	SDL_Window* window = SDL_CreateWindow("Sample", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mainScreen._Width, mainScreen._Height, SDL_WINDOW_OPENGL);
 
 	SDL_GLContext context = SDL_GL_CreateContext(window);
 
@@ -89,12 +92,14 @@ int main(int argc, char* argv[])
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	float prevFrameTime = SDL_GetTicks();
+	Uint32 curFrameTime = SDL_GetTicks();
+	Uint32 prevFrameTime;
 	float deltaTime = 0.0f;
+	float gameTime = 0.0f;
 
 	const int MAX_FPS = 60;
 	const float MAX_FPS_DT = MAX_FPS / 1000.0f;
-	float gameTime = 0.0f;
+	
 	SDL_Event windowEvent;
 	while (true)
 	{
@@ -102,6 +107,13 @@ int main(int argc, char* argv[])
 		{
 			if (windowEvent.type == SDL_QUIT) break;
 		}
+
+		//calculate time
+		prevFrameTime = curFrameTime;
+		curFrameTime = SDL_GetTicks();
+		
+		deltaTime = (curFrameTime - prevFrameTime)/1000.0f;
+		gameTime += deltaTime;
 
 		//clear screen
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -115,27 +127,37 @@ int main(int argc, char* argv[])
 		glBindTexture(GL_TEXTURE_2D, texture);
 
 		//Create Trasnformation
+
 		float scale = 0.25f;
-		Matrix4X4 transformMatrix;
-		Vector3D pos(-0.50f, 0.50f, 0.0f);
-
-		transformMatrix.Translate(pos);
-		transformMatrix.Rotate(deltaTime * 0.05f, Vector3D::forward);
-		transformMatrix = transformMatrix * scale;
-
-		transformMatrix.Transpose();
+		Matrix4X4 modelMatrix;
+		modelMatrix.Rotate(gameTime * 500.0f, Vector3D::forward);
+		modelMatrix = modelMatrix * scale;
+		modelMatrix.Transpose();
 		
-		GLint transformLoc = glGetUniformLocation(shader.m_programID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, *transformMatrix.m_Matrix);
+		GLint modelID = glGetUniformLocation(shader.m_programID, "model");
+		glUniformMatrix4fv(modelID, 1, GL_FALSE, *modelMatrix.m_Matrix);
+
+		Matrix4X4 viewMatrix;
+		Vector3D pos(2.0f, -1.0f, -5.0f);
+		//viewMatrix = viewMatrix * scale;
+		viewMatrix.Translate(pos);
+		
+		viewMatrix.Transpose();
+		GLint viewID = glGetUniformLocation(shader.m_programID, "view");
+		glUniformMatrix4fv(viewID, 1, GL_FALSE, *viewMatrix.m_Matrix);
+
+		Camera camera;
+		camera.SetProjectionMatrix(45.0f, mainScreen, 0.1f, 1000.0f);
+		Matrix4X4 perspectiveMatrix = camera.GetProjectionMatrix();
+		GLint projectionID = glGetUniformLocation(shader.m_programID, "projection");
+		glUniformMatrix4fv(projectionID, 1, GL_FALSE, *perspectiveMatrix.m_Matrix);
+
 
 		glBindVertexArray(vao);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glBindVertexArray(0);
 
 		SDL_GL_SwapWindow(window);
-
-		deltaTime = SDL_GetTicks() - prevFrameTime;
-		gameTime += deltaTime;
 	}
 
 	SDL_GL_DeleteContext(context);
